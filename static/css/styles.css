@@ -1,0 +1,48 @@
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    background-color: #1a1a1a;
+    color: #f0f0f0;
+}
+
+header {
+    padding: 20px;
+    background-color: #e53935;
+    color: white;
+}
+
+.logo {
+    max-width: 200px;
+    display: block;
+    margin: 0 auto;
+}
+
+main {
+    padding: 40px;
+}
+
+input[type="file"] {
+    display: none;
+}
+
+button {
+    background-color: #e53935;
+    color: white;
+    font-size: 18px;
+    padding: 12px 24px;
+    border: none;
+    cursor: pointer;
+    margin-bottom: 20px;
+}
+
+button:hover {
+    background-color: #d32f2f;
+}
+
+#result {
+    display: none;
+}
+
+#pokemon-name {
+    font-weight: bold;
+}
