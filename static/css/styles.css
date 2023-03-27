@@ -41,8 +41,10 @@ button:hover {
 
 #result {
     display: none;
+    margin: 0 33.33%; /* Adjust left and right margins */
 }
 
 #pokemon-name {
     font-weight: bold;
 }
+
