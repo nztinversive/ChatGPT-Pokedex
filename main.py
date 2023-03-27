@@ -1,6 +1,8 @@
 from flask import Flask, render_template, request, redirect, url_for, flash
 import os
 import torch
+import openai
+import secrets
 import torchvision
 import torch.nn as nn
 import torch.nn.functional as F
@@ -10,6 +12,8 @@ from PIL import Image
 from io import BytesIO
 
 save_folder = 'uploaded_images'
+
+openai.api_key = "your-openai-key"
 
 
 pokemon_names = [
@@ -100,8 +104,27 @@ def classify_image(image):
 
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 
+
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+
+def generate_pokemon_bio(pokemon_name):
+    prompt = f"Generate a bio for the Pokémon {pokemon_name}."
+    response = openai.ChatCompletion.create(
+        model="gpt-3.5-turbo",
+        messages=[
+            {"role": "system", "content": "You are a helpful assistant that generates Pokémon bios."},
+            {"role": "user", "content": prompt}
+        ],
+        max_tokens=150,
+        n=1,
+        stop=None,
+        temperature=0.7,
+    )
+    bio = response['choices'][0]['message']['content'].strip()
+    return bio
+
 
 
 @app.route("/", methods=["GET", "POST"])
@@ -121,9 +144,12 @@ def index():
 
                 try:
                     pokemon_name = classify_image(Image.open(file_path))
-                    message = f"You found a wild {pokemon_name}! Great job!"
+                    pokemon_bio = generate_pokemon_bio(pokemon_name)
+                    message = f"You found a wild {pokemon_name}! Great job! Here is its bio: {pokemon_bio}"
                 except Exception as e:
-                    print(e)  # Add this line to print the exception
+                    print("Exception:", e)  # Add this line to print the exception
+                    import traceback
+                    print(traceback.format_exc())  # Print the traceback to see the source of the error
                     message = "An error occurred while processing the image"
 
     return render_template("index.html", message=message)
