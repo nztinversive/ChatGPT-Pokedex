@@ -1,8 +1,8 @@
-# Pokémon Classifier
+#Pokémon Classifier
 
 This Pokémon Classifier web application allows users to upload images of Pokémon, and the app will identify the Pokémon and provide a short bio. It uses a trained convolutional neural network (CNN) for classification and the OpenAI GPT-3.5-turbo model for generating Pokémon bios.
 
-## Installation
+##Installation
 
 1. Clone this repository
 
